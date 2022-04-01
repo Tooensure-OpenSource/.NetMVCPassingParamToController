@@ -1,0 +1,84 @@
+﻿
+@model MVController.Models.User;
+@{
+    ViewData["Title"] = "Home Page";
+    
+    @* Model.Email = "@grmail";  *@
+    @* var users = new List<User>()
+    {
+        new User() {Username = "Milk", Email = "tooensuremaster@gmail.com" }
+    }; *@
+    var username = "Mike";
+}
+
+<div class="text-center">
+
+    <h1 class="display-4">Export User</h1>
+    <p id="username">@username</p>
+    <button id="exportBtn" type="button" value="Export" class="btn btn-primary" onClick="ExportData()"></button>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+    function ExportData()
+    {
+        
+        $(document).ready(function(){
+
+            @* var data = $("#exportForm").serialize(); *@
+            var username = $('#username').text();
+            @* var email = $('#email').text(); *@
+            @* var model = {
+                "username": username,
+                "email": email
+            } *@
+            $('#exportBtn').click(function () {
+                console.log("Collecting");
+                console.log(username);
+                $.ajax({
+                    url: "Home/Export",
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: "Json",
+                    data: JSON.stringify(username),
+                    cache: false,
+                    async: true,
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function(e)
+                    {
+                        console.log("error");      
+                    },
+                });
+            });
+        });
+    }
+    @* $(document).ready(function () {
+        $("#exportBtn").click(function () {
+            
+            $.ajax(
+            {
+                type: "POST", //HTTP POST Method
+                url: "Home/Export", // Controller/View 
+                data: { //Passing data
+                    Username: $("#test1").val(), //Reading text box values using Jquery 
+                    Email: $("#test1").val(),
+                }
+
+            });
+
+        });
+    }); *@
+
+    @* $(document).ready(function () {
+        var data = $("#exportForm").serialize();
+        $.ajax({
+            type: "POST",
+            url: "Home/Export",
+            data: data,
+            success: function(response) {
+                alert("Nice Job");
+            }
+        }) *@
+    @* }); *@
+</script>
